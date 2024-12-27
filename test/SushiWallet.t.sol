@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
-import "forge-std/Test.sol";
-import "forge-std/console.sol";
+import {Test} from "forge-std/Test.sol";
+import {console} from "forge-std/console.sol";
 import {SushiWallet} from "../src/SushiWallet.sol";
-import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol"; 
 
 interface IUniswapV2Pair {
     function getReserves() external view returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast);
@@ -44,11 +44,8 @@ contract SushiWalletTest is Test {
     event LiquidityRemoved(uint256 wethAmount, uint256 usdcAmount, uint256 lpAmount);
 
     function setUp() public {
-        try vm.envString("ARBITRUM_RPC_URL") returns (string memory rpcUrl) {
-            vm.createSelectFork(rpcUrl);
-        } catch {
-            console.log("Warning: No RPC URL provided, running in local environment");
-        }
+
+        vm.createSelectFork("https://arb1.lava.build");
 
         // Find pool ID for WETH-USDC pair
         pid = _findPoolId(WETH, USDC);
