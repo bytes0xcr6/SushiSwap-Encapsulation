@@ -19,10 +19,10 @@ contract SushiWallet is ISushiWallet {
 
     /// @notice SushiSwap Router contract for liquidity operations
     IUniswapV2Router02 public immutable SUSHI_ROUTER;
-    
+
     /// @notice MasterChef contract for staking LP tokens
     IMasterChef public immutable MASTER_CHEF;
-    
+
     /// @notice SushiSwap Factory contract for getting LP pair addresses
     IUniswapV2Factory public immutable SUSHI_FACTORY;
 
@@ -69,19 +69,12 @@ contract SushiWallet is ISushiWallet {
 
         // 3. Add liquidity to SushiSwap pool
         (,, uint256 liquidity) = SUSHI_ROUTER.addLiquidity(
-            tokenA,
-            tokenB,
-            amountADesired,
-            amountBDesired,
-            amountAMin,
-            amountBMin,
-            address(this),
-            deadline
+            tokenA, tokenB, amountADesired, amountBDesired, amountAMin, amountBMin, address(this), deadline
         );
 
         // 4. Get SLP token address
         address pair = getPairAddress(tokenA, tokenB);
-        
+
         // 5. Approve MasterChef to spend SLP tokens
         IERC20(pair).approve(address(MASTER_CHEF), liquidity);
 
@@ -89,14 +82,7 @@ contract SushiWallet is ISushiWallet {
         MASTER_CHEF.deposit(pid, liquidity, address(this));
 
         // Emit event
-        emit LiquidityAdded(
-            msg.sender,
-            tokenA,
-            tokenB,
-            amountADesired,
-            amountBDesired,
-            liquidity
-        );
+        emit LiquidityAdded(msg.sender, tokenA, tokenB, amountADesired, amountBDesired, liquidity);
     }
 
     /**
@@ -132,13 +118,13 @@ contract SushiWallet is ISushiWallet {
     ) external {
         // 1. Get SLP token address
         address pair = getPairAddress(tokenA, tokenB);
-        
+
         // 2. Withdraw LP tokens from MasterChef
         MASTER_CHEF.withdraw(pid, liquidity, address(this));
-        
+
         // 3. Approve router to spend LP tokens
         IERC20(pair).approve(address(SUSHI_ROUTER), liquidity);
-        
+
         // 4. Remove liquidity from SushiSwap pool
         (uint256 amountA, uint256 amountB) = SUSHI_ROUTER.removeLiquidity(
             tokenA,
@@ -152,4 +138,4 @@ contract SushiWallet is ISushiWallet {
 
         emit LiquidityRemoved(msg.sender, tokenA, tokenB, amountA, amountB);
     }
-} 
+}

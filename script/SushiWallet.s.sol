@@ -19,15 +19,12 @@ contract SushiWalletScript is Script {
     function run() public {
         // Get deployer private key from environment
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
-        
+
         // Start broadcasting transactions
         vm.startBroadcast(deployerPrivateKey);
 
         // Deploy SushiWallet
-        SushiWallet wallet = new SushiWallet(
-            SUSHI_ROUTER,
-            MASTER_CHEF
-        );
+        SushiWallet wallet = new SushiWallet(SUSHI_ROUTER, MASTER_CHEF);
 
         // Emit event for test to capture
         emit WalletDeployed(address(wallet));
@@ -36,4 +33,4 @@ contract SushiWalletScript is Script {
 
         vm.stopBroadcast();
     }
-} 
+}

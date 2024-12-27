@@ -35,11 +35,7 @@ interface ISushiWallet {
      * @param amountB The amount of tokenB received
      */
     event LiquidityRemoved(
-        address indexed user,
-        address indexed tokenA,
-        address indexed tokenB,
-        uint256 amountA,
-        uint256 amountB
+        address indexed user, address indexed tokenA, address indexed tokenB, uint256 amountA, uint256 amountB
     );
 
     /**
@@ -83,4 +79,4 @@ interface ISushiWallet {
         uint256 pid,
         uint256 deadline
     ) external;
-} 
+}
