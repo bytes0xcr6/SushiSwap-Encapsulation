@@ -1,66 +1,92 @@
-## Foundry
+# SushiWallet Encapsulation
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+> A gas-optimized contract for managing SushiSwap liquidity positions and yield farming in a single transaction.
 
-Foundry consists of:
+## Table of Contents
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- [Features](#features)
+- [Technical Details](#technical-details)
+  - [Architecture](#architecture)
+  - [Security](#security)
+  - [Development](#development)
+- [Testing](#testing)
+  - [Full Cycle Output](#full-cycle-output)
+  - [Coverage Report](#coverage-report)
+  - [Gas Analysis](#gas-analysis)
+- [License](#license)
 
-## Documentation
+## Features
 
-https://book.getfoundry.sh/
+- 🔄 Single-transaction liquidity provision and staking
+- 💰 Automated yield farming setup
+- ⚡ Gas-optimized operations
+- 🔒 Non-custodial design
+- 🛡️ Built-in slippage protection
+- 🚀 Streamlined LP token management
 
-## Usage
+## Technical Details
 
-### Build
+### Architecture
 
-```shell
-$ forge build
+The contract operates through two main functions:
+
+1. **Join Liquidity Mining**:
+
+   - Transfers tokens from user
+   - Adds liquidity to SushiSwap
+   - Stakes LP tokens in MasterChef (V1 or V2)
+
+2. **Exit Liquidity Mining**:
+   - Withdraws from MasterChef (V1 or V2)
+   - Removes liquidity from SushiSwap
+   - Returns tokens to user
+
+### Security
+
+- ✓ Non-custodial design
+- ✓ Slippage protection
+- ✓ Deadline checks
+- ✓ SafeERC20 implementation
+- ✓ No admin privileges
+- ✓ Immutable addresses
+
+### Development
+
+```bash
+# Install dependencies
+forge install
+
+# Run tests
+forge test
+forge test --gas-report
+
+# Check test coverage
+forge coverage
+
+# Deploy to Arbitrum
+forge script script/SushiWallet.s.sol:SushiWalletScript \
+    --rpc-url $ARBITRUM_RPC_URL \
+    --broadcast \
+    --verify \
+    --etherscan-api-key $ARBISCAN_API_KEY \
+    --private-key $PRIVATE_KEY \
+    -vvvv
 ```
 
-### Test
+## Testing
 
-```shell
-$ forge test
-```
+### Full Cycle Output
 
-### Format
+![Full Cycle Output](images/full-cycle-output.png)
 
-```shell
-$ forge fmt
-```
+### Coverage Report
 
-### Gas Snapshots
+![Test Coverage](images/test-coverage.png)
 
-```shell
-$ forge snapshot
-```
+### Gas Analysis
 
-### Anvil
+![Gas Report](images/gas-report.png)
 
-```shell
-$ anvil
-```
+## License
 
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+MIT License - see [LICENSE.md](LICENSE.md)
