@@ -69,7 +69,7 @@ forge script script/SushiWallet.s.sol:SushiWalletScript \
     --broadcast \
     --verify \
     --etherscan-api-key $ARBISCAN_API_KEY \
-    --private-key $PRIVATE_KEY \
+    --account $ETH_KEYSTORE_ACCOUNT \
     -vvvv
 ```
 
