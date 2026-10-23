@@ -18,10 +18,10 @@ contract SushiWalletScript is Script {
 
     function run() public {
         // Get deployer private key from environment
-        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        // The broadcaster is supplied by forge --account / --keystore.
 
         // Start broadcasting transactions
-        vm.startBroadcast(deployerPrivateKey);
+        vm.startBroadcast();
 
         // Deploy SushiWallet
         SushiWallet wallet = new SushiWallet(SUSHI_ROUTER, MASTER_CHEF);
